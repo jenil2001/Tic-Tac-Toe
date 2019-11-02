@@ -1,0 +1,94 @@
+# tic tac toe
+from tkinter import *
+from tkinter import messagebox
+turn=0
+arr=[[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+def callback():
+    global p1,p2
+    p1 = player1.get()
+    p2 = player2.get()
+    p1=p1.upper()
+    p2=p2.upper()
+top=Tk()
+top.title('Tic Tac Toe')
+Label(top,text='PLAYER 1 (X)').grid(row=0)
+Label(top,text='PLAYER 2 (O)').grid(row=1)
+player1=Entry(top)
+player2=Entry(top)
+player1.grid(row=0,column=1)
+player2.grid(row=1,column=1)
+sub=Button(top,text="SUBMIT",width=10,command=callback)
+sub.grid(row=2,columnspan=2)
+frame=Frame(top)
+frame.grid(row=3,columnspan=3)
+btn=[[Button()for _ in range (3)]for _ in range (3)]
+for x in range(3):
+    for y in range(3):
+        btn[x][y] = Button(frame,width=8,height=4,bg="red", command=lambda x1=x, y1=y: onclick(x1, y1))
+        btn[x][y].grid(column=x, row=y)
+
+def onclick(x,y):
+    btn[x][y].config(bg="blue")
+    global turn,arr
+    if arr[x][y]==' ':
+        if turn%2==0:
+            btn[x][y]["text"] = "X"
+            arr[x][y]='X'
+        else:
+            btn[x][y]["text"] = "O"
+            arr[x][y]='O'
+        turn=turn+1
+    flagr = 0
+    flagc = 0
+    flagd = 0
+    for j in range(0, 3):
+        if arr[x][j] != 'X':
+            flagr = 1
+            break
+    for j in range(0, 3):
+        if arr[j][y] != 'X':
+            flagc = 1
+            break
+    if (x == 1 or y == 1) and (x != 1 and y != 1):
+        flagd = 1
+    else:
+        for j in range(0, 3):
+            if arr[j][j] != 'X':
+                flagd = 1
+                break
+        if flagd != 0:
+            if arr[0][2] != 'X' or arr[1][1] != 'X' or arr[2][0] != 'X':
+                flagd = 1
+    if flagc == 0 or flagd == 0 or flagr == 0:
+        messagebox.showinfo("GAME OVER", p1+" WINS THE GAME :) :) :)")
+        top.destroy()
+    flagr = 0
+    flagc = 0
+    flagd = 0
+    for j in range(0, 3):
+        if arr[x][j] != 'O':
+            flagr = 1
+            break
+    for j in range(0, 3):
+        if arr[j][y] != 'O':
+            flagc = 1
+            break
+    if (x == 1 or y == 1) and (x != 1 and y != 1):
+        flagd = 1
+    else:
+        for j in range(0, 3):
+            if arr[j][j] != 'O':
+                flagd = 1
+                break
+        if flagd != 0:
+            if arr[0][2] != 'O' or arr[1][1] != 'O' or arr[2][0] != 'O':
+                flagd = 1
+    if flagc == 0 or flagd == 0 or flagr == 0:
+        messagebox.showinfo("GAME OVER",p2+" WINS THE GAME :) :) :)")
+        top.destroy()
+    if turn == 9:
+        messagebox.showinfo("GAME OVER", "TIE GAME")
+        top.destroy()
+
+top.mainloop()
+
